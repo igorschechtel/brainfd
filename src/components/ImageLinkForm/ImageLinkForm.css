@@ -1,0 +1,30 @@
+.col {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  min-width: 70%;
+  max-width: 1080px;
+}
+
+h5.card-header {
+  background-color: #240b36 !important;
+  color: #fff;
+  font-weight: 300;
+}
+
+button.detect {
+  color: #fff;
+  background-color: #c31432;
+  border: 1px solid #c31432;
+  border-radius: 999px;
+  padding: 0.25rem 1.4rem;
+  cursor: pointer;
+  display: block;
+}
+button.detect:hover {
+  background-color: #6d0c1c;
+  border: 1px solid #6d0c1c;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}

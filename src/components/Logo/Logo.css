@@ -1,0 +1,10 @@
+.Tilt {
+  background-color: transparent;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 0.5em;
+}
+
+.Tilt-inner img {
+  height: 80px;
+}
