@@ -6,12 +6,18 @@
 .card {
   min-width: 70%;
   max-width: 1080px;
+  margin-top: 4em;
 }
 
-h5.card-header {
-  background-color: #240b36 !important;
-  color: #fff;
-  font-weight: 300;
+.card-body h5 {
+  font-weight: 400;
+}
+.card-body h5 span {
+  color: #c31432;
+}
+
+.custom-file {
+  cursor: pointer !important;
 }
 
 button.detect {

@@ -6,7 +6,10 @@ import './Logo.css';
 class Logo extends Component {
   render() {
     return (
-      <Tilt className='Tilt mx-3 d-inline-block' options={{ max: 50 }}>
+      <Tilt
+        className='Tilt d-inline-block float-left m-2'
+        options={{ max: 50 }}
+      >
         <div className='Tilt-inner'>
           <img src={brain} alt='brain-logo' />
         </div>
