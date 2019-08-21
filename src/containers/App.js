@@ -62,7 +62,10 @@ class App extends Component {
   // Run when 'detect' button pressed
   onButtonSubmit = () => {
     // Sets imageUrl state to whats on input field
-    this.setState({ imageUrl: this.state.input });
+    this.setState({
+      imageUrl: this.state.input,
+      box: {}
+    });
 
     // Send image to Clarifai API and run calculateFaceLocation with the response
     app.models
@@ -86,9 +89,11 @@ class App extends Component {
         <Particles params={particlesOptions} className='particles' />
         <Navbar />
         <div className='container'>
-          <div className='row d-flex justify-content-center'>
-            <Logo />
-            <Rank />
+          <div className='row'>
+            <div className='col align-items-center'>
+              <Logo />
+              <Rank />
+            </div>
           </div>
         </div>
         <ImageLinkForm

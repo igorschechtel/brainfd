@@ -7,7 +7,7 @@ class FaceRecognition extends Component {
     return (
       <div className='container'>
         <div className='row'>
-          <div className='col d-flex justify-content-center'>
+          <div className='col'>
             {imageUrl === '' ? null : (
               <div className='media-box mb-5'>
                 <div className='image-box'>
