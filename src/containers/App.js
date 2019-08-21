@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar/Navbar';
 import Logo from '../components/Logo/Logo';
 import Rank from '../components/Rank/Rank';
 import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
+import FaceRecognition from '../components/FaceRecognition/FaceRecognition';
 
 const particlesOptions = {
   particles: {
@@ -19,40 +20,63 @@ const particlesOptions = {
   }
 };
 
-const app = new Clarifai.App({
-  apiKey: '8ae6df6d8f7545f19a61968334163016'
-});
+const app = new Clarifai.App({ apiKey: '8ae6df6d8f7545f19a61968334163016' });
 
 class App extends Component {
+  // Constructor
   constructor(props) {
     super(props);
     this.state = {
-      imageUrl: ''
+      input: '',
+      imageUrl: '',
+      box: {
+        top_row: '',
+        right_col: ''
+      }
     };
   }
-  onButtonSubmit = () => {
-    console.log('click');
-    // app.models
-    //   .predict(
-    //     Clarifai.FACE_DETECT_MODEL,
-    //     // URL
-    //     'https://pixel.nymag.com/imgs/daily/science/2016/09/27/27-openness-friends-different-sex-ethnicity-race.w700.h467.jpg'
-    //   )
-    //   .then(
-    //     function(response) {
-    //       // do something with response
-    //       console.log(response);
-    //     },
-    //     function(err) {
-    //       // there was an error
-    //     }
-    //   );
+
+  // Calculate face location
+  calculateFaceLocation = data => {
+    // Puts first face box locations on a const
+    const clarifaiFace =
+      data.outputs[0].data.regions[0].region_info.bounding_box;
+
+    // Gets image element (and its width and height)
+    const image = document.getElementById('inputImage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    return {
+      top: clarifaiFace.top_row * height,
+      right: width - clarifaiFace.right_col * width,
+      bottom: height - clarifaiFace.bottom_row * height,
+      left: clarifaiFace.left_col * width
+    };
   };
 
+  displayFaceBox = box => {
+    this.setState({ box });
+  };
+
+  // Run when 'detect' button pressed
+  onButtonSubmit = () => {
+    // Sets imageUrl state to whats on input field
+    this.setState({ imageUrl: this.state.input });
+
+    // Send image to Clarifai API and run calculateFaceLocation with the response
+    app.models
+      .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+      .then(response =>
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      )
+      .catch(err => console.log('Error: ' + err));
+  };
+
+  // Updates input state when changed
   onInputChange = e => {
-    console.log(e.target.value);
     this.setState({
-      imageUrl: e.target.value
+      input: e.target.value
     });
   };
 
@@ -71,6 +95,7 @@ class App extends Component {
           onInputChange={this.onInputChange}
           onButtonSubmit={this.onButtonSubmit}
         />
+        <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} />
       </div>
     );
   }

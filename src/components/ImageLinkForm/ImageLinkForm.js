@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './ImageLinkForm.css';
 
 const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
@@ -6,7 +6,7 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
     <div className='container'>
       <div className='row'>
         <div className='col'>
-          <div className='card mb-5'>
+          <div className='card mb-2'>
             <div className='card-body'>
               <h5 className='mb-4'>
                 The{' '}

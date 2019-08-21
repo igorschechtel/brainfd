@@ -1,0 +1,15 @@
+.media-box {
+  max-width: 100%;
+  border: 3px solid #fff;
+  border-radius: 5px;
+  position: absolute;
+}
+
+.bounding-box {
+  position: absolute;
+  box-shadow: 0 0 0 3px #d4ff32 inset;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+}
