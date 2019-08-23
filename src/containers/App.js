@@ -29,34 +29,38 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: {
-        top_row: '',
-        right_col: ''
-      }
+      boxes: [],
+      clicked: false
     };
   }
 
   // Calculate face location
   calculateFaceLocation = data => {
-    // Puts first face box locations on a const
-    const clarifaiFace =
-      data.outputs[0].data.regions[0].region_info.bounding_box;
-
     // Gets image element (and its width and height)
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
 
-    return {
-      top: clarifaiFace.top_row * height,
-      right: width - clarifaiFace.right_col * width,
-      bottom: height - clarifaiFace.bottom_row * height,
-      left: clarifaiFace.left_col * width
-    };
+    // Boxes array
+    const boxes = [];
+
+    // Maps regions and puts each box info in boxes array
+    data.outputs[0].data.regions.map(region => {
+      const clarifaiFace = region.region_info.bounding_box;
+      const box = {
+        top: clarifaiFace.top_row * height,
+        right: width - clarifaiFace.right_col * width,
+        bottom: height - clarifaiFace.bottom_row * height,
+        left: clarifaiFace.left_col * width
+      };
+      boxes.push(box);
+    });
+
+    return boxes;
   };
 
-  displayFaceBox = box => {
-    this.setState({ box });
+  displayFaceBox = boxes => {
+    this.setState({ boxes });
   };
 
   // Run when 'detect' button pressed
@@ -64,7 +68,8 @@ class App extends Component {
     // Sets imageUrl state to whats on input field
     this.setState({
       imageUrl: this.state.input,
-      box: {}
+      boxes: [],
+      clicked: true
     });
 
     // Send image to Clarifai API and run calculateFaceLocation with the response
@@ -99,8 +104,14 @@ class App extends Component {
         <ImageLinkForm
           onInputChange={this.onInputChange}
           onButtonSubmit={this.onButtonSubmit}
+          boxes={this.state.boxes}
+          clicked={this.state.clicked}
         />
-        <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} />
+        <FaceRecognition
+          imageUrl={this.state.imageUrl}
+          boxes={this.state.boxes}
+          clicked={this.state.clicked}
+        />
       </div>
     );
   }
